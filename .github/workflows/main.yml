@@ -1,0 +1,26 @@
+name: QUANTAXIS LATEX BUILD
+on: 
+  push:
+    branches:
+      - "master"
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: book.tex
+          latexmk_use_xelatex: true
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "QUANTAXIS LATEX BUILD"
+          files: |
+            book.pdf
+            book.tex
